@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">eShop</string>
+
+
+    <string name="format_price">%d d</string>
+    <string name="format_num_rating">( %d )</string>
+
 </resources>

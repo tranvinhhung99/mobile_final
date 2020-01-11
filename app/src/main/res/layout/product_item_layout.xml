@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="6dp">
+
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        tools:src="@drawable/ic_launcher_background"
+        android:id="@+id/item_avatar"
+        android:layout_gravity="center_horizontal"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            tools:text="Iphone 11"
+            android:id="@+id/text_view_item_name"
+            android:maxWidth="100dp"
+            android:maxLines="2"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="123.000d"
+            android:textStyle="bold"
+            android:id="@+id/text_view_item_price"
+            />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:saveEnabled="true"
+                tools:rating="3"
+                android:id="@+id/rating_bar"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:layout_centerVertical="true"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/text_view_num_rating"
+                tools:text="(30)"
+                android:layout_marginStart="5dp"
+                android:layout_toEndOf="@id/rating_bar"
+                android:layout_centerVertical="true"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add to cart"
+        android:background="@android:color/holo_green_light"
+        android:padding="3dp"
+        />
+
+</LinearLayout>
