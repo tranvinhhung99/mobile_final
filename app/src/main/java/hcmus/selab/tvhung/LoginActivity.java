@@ -6,8 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +32,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private static final String TAG = LoginActivity.class.toString();
     private static final int GOOGLE_SIGN_IN_REQUEST = 9001;
 
+    // Signup button
+    private Button btn_signup;
+
     // [START declare_auth]
     private FirebaseAuth mAuth;
     // [END declare_auth]
@@ -46,7 +51,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         // Btn listener add
         findViewById(R.id.btn_login_google).setOnClickListener(this);
-
+        findViewById(R.id.btn_signup).setOnClickListener(this);
 
         // [START config_signin]
         // Configure Google Sign In
@@ -130,5 +135,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if(id == R.id.btn_login_google){
             signInByGoogle();
         }
+        if(id == R.id.btn_signup)
+        {
+            signUp();
+        }
+
+    }
+    public void signUp(){
+        Intent signUp = new Intent(LoginActivity.this, RegisterActivity.class);
+        startActivity(signUp);
     }
 }
