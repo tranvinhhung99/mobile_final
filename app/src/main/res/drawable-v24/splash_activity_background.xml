@@ -7,7 +7,9 @@
         </shape>
     </item>
     <item>
-        <bitmap android:src="@mipmap/hautee_logo" android:gravity="center"/>
+<!--        <bitmap android:src="@mipmap/hautee_logo" android:gravity="center"/>-->
+        <bitmap android:src="@drawable/hautee_logo" android:gravity="center"/>
+
 
     </item>
 </layer-list>
