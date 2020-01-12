@@ -67,13 +67,14 @@
 
 
 
-    <TextView android:id="@+id/link_signup"
+    <Button android:id="@+id/btn_signup"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
         android:text="No account yet? Create one by Sign Up"
         android:gravity="center"
-        android:textColor="@color/colorPrimaryTextColor"
+        android:textAllCaps="false"
+        android:textColor="@android:color/black"
         android:textSize="16dip"/>
 
 
