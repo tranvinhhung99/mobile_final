@@ -61,8 +61,10 @@ public class ProductAdapter extends ArrayAdapter<Product> {
         holder.name.setText(currentItem.getName());
 
 
-        holder.numRating.setText(Resources.getSystem().getString(R.string.format_num_rating, currentItem.getNumRating()));
-        holder.price.setText(Resources.getSystem().getString(R.string.format_price, currentItem.getPrice()));
+//        holder.numRating.setText(Resources.getSystem().getString(R.string.format_num_rating, currentItem.getNumRating()));
+        holder.numRating.setText(String.format("(%d)", currentItem.getNumRating()));
+//        holder.price.setText(Resources.getSystem().getString(R.string.format_price, currentItem.getPrice()));
+        holder.price.setText(String.format("%dd", currentItem.getPrice()));
         holder.ratingBar.setRating(currentItem.getRating());
 
         //TODO: Add listener for logic of ratingBar

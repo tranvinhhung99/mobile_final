@@ -58,4 +58,11 @@
             android:layout_centerVertical="true"/>
 
     </RelativeLayout>
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add to cart"
+        android:background="@android:color/holo_green_light"
+        android:padding="3dp"
+        />
 </LinearLayout>

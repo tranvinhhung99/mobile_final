@@ -3,6 +3,6 @@
 
 
     <string name="format_price">%d d</string>
-    <string name="format_num_rating">( %d )</string>
+    <string name="format_num_rating">\( %1$d \)</string>
 
 </resources>
