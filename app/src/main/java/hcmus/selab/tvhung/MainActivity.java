@@ -118,7 +118,11 @@ public class MainActivity extends AppCompatActivity {
 
             if(singleProduct.containsKey("avatar_url")){
                 String avatarUrl = (String)singleProduct.get("avatar_url");
-                downloadAvatar(avatarUrl, entry.getKey(), mProductAdapter.getCount());
+                String downloadedPath = downloadAvatar(avatarUrl, entry.getKey(), mProductAdapter.getCount());
+
+                if(downloadedPath != null){
+                    builder.setAvatarPath(downloadedPath);
+                }
             }
 
             mProductAdapter.add(builder.createProduct());
@@ -128,10 +132,16 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void downloadAvatar(String url, final String id, final int position){
+    // Return file path if file already exists
+    private String downloadAvatar(String url, final String id, final int position){
         StorageReference reference = mStorage.getReferenceFromUrl(url);
 
         final File file = new File(getFilesDir() + "/" + id + ".jpeg");
+
+        // Avatar already downloaded
+        if(file.exists()){
+            return file.toString();
+        }
 
         reference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
             @Override
@@ -146,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         });
-
+        return null;
     }
 
 }

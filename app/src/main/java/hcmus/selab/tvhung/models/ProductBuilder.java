@@ -19,6 +19,7 @@ public class ProductBuilder {
     private int    mNumRating = 0;
     private String mCategory  = "phone";
     private String mId;
+    private String mAvatarPath = null;
 
     public ProductBuilder setCategory(String category){
         this.mCategory = category;
@@ -56,7 +57,7 @@ public class ProductBuilder {
     }
 
     public Product createProduct() {
-        return new Product(mName, mPrice, mRating, mNumRating, mCategory, mId);
+        return new Product(mName, mPrice, mRating, mNumRating, mCategory, mId, mAvatarPath);
     }
 
     public ProductBuilder setValue(Map map){
@@ -78,6 +79,11 @@ public class ProductBuilder {
             this.setPrice(convertObjectToInt(map.get("price")));
 
 
+        return this;
+    }
+
+    public ProductBuilder setAvatarPath(String avatarPath){
+        this.mAvatarPath = avatarPath;
         return this;
     }
 
