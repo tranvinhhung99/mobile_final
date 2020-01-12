@@ -64,5 +64,8 @@
         android:text="Add to cart"
         android:background="@android:color/holo_green_light"
         android:padding="3dp"
+        android:id="@+id/btn_add_to_cart"
         />
+
+
 </LinearLayout>
