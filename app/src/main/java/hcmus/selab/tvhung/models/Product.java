@@ -35,13 +35,14 @@ public class Product implements Serializable {
     private String mAvatarPath = null;
 
     public Product(String mName, int mPrice, float mRating, int mNumRating,
-                   String mCategory, String mId) {
+                   String mCategory, String mId, String avatarPath) {
         this.mName = mName;
         this.mPrice = mPrice;
         this.mRating = mRating;
         this.mNumRating = mNumRating;
         this.mCategory = mCategory;
         this.mId = mId;
+        this.mAvatarPath = avatarPath;
     }
 
     // Default constructor needed for Firebase
