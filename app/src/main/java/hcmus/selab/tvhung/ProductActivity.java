@@ -6,9 +6,12 @@ import hcmus.selab.tvhung.models.Product;
 
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.View;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -47,6 +50,39 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
 
         // Set OnClickListener
         findViewById(R.id.btn_add_to_cart).setOnClickListener(this);
+
+        // Create fake map
+
+        DatabaseReference detailInformation = FirebaseDatabase.getInstance().getReference()
+                .child("products_detail").child(mProduct.getId());
+
+        detailInformation.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                Map<String, Object> data = (Map<String, Object>) dataSnapshot.getValue();
+
+                if(data == null){
+                    Log.d(TAG, "Not found product detail information:" + mProduct.getId());
+                    return;
+                }
+
+                if(data.containsKey("description")){
+                    TextView descriptionText = findViewById(R.id.text_view_description);
+                    descriptionText.setText(data.get("description").toString());
+                }
+
+                if(data.containsKey("detail_information")){
+                    Map<String, String> detailInformation = (Map<String, String>) data.get("detail_information");
+                    generateGrid(detailInformation);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d(TAG, "Not found product detail information:" + mProduct.getId());
+            }
+        });
 
 
     }
@@ -106,4 +142,50 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         if(id == R.id.btn_add_to_cart)
             addToCart();
     }
+
+
+
+    private final int EVEN_CELL_COLOR = Color.parseColor("#EAEBEC");
+    private final int ODD_CELL_COLOR = Color.parseColor("#FFFFFF");
+
+    private void addEntryToGrid(Map.Entry<String, String> entry, int position, GridLayout gridLayout){
+        int color = (position % 2 == 0) ? EVEN_CELL_COLOR : ODD_CELL_COLOR;
+
+        // For Key Cell
+        ContextThemeWrapper keyWrapper = new ContextThemeWrapper(this, R.style.GridCellKey);
+        TextView keyTextView = new TextView(keyWrapper);
+        keyTextView.setBackgroundColor(color);
+        keyTextView.setText(entry.getKey());
+
+        GridLayout.LayoutParams keyParam = new GridLayout.LayoutParams(keyWrapper, null);
+
+        gridLayout.addView(keyTextView, keyParam);
+
+
+        // For Value Cell
+        ContextThemeWrapper valueWrapper = new ContextThemeWrapper(this, R.style.GridCellValue);
+        TextView valueTextView = new TextView(valueWrapper);
+        valueTextView.setBackgroundColor(color);
+        valueTextView.setText(entry.getValue());
+
+        GridLayout.LayoutParams valueParam = new GridLayout.LayoutParams(valueWrapper, null);
+
+        gridLayout.addView(valueTextView, valueParam);
+
+    }
+
+    private void generateGrid(Map<String, String> map){
+        GridLayout layout = findViewById(R.id.detail_information_grid);
+        int numRows = map.size();
+        layout.setRowCount(numRows);
+        int count = 0;
+
+        for(Map.Entry<String, String> entry : map.entrySet()){
+            addEntryToGrid(entry, count, layout);
+            count++;
+        }
+
+    }
+
+
 }
