@@ -47,7 +47,8 @@
                 android:layout_height="wrap_content"
                 style="@style/TextAppearance.AppCompat.Headline"
                 tools:text="10000000d"
-                android:layout_alignParentEnd="true" />
+                android:layout_alignParentEnd="true"
+                android:id="@+id/text_view_total_price"/>
 
         </RelativeLayout>
 

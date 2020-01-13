@@ -48,6 +48,21 @@ public class Product implements Serializable {
     // Default constructor needed for Firebase
     public Product(){}
 
+    public Product(Product p) {
+        this.copy(p);
+    }
+
+    private void copy(Product p){
+        this.mName = p.mName;
+        this.mPrice = p.mPrice;
+        this.mRating = p.mRating;
+        this.mNumRating = p.mNumRating;
+        this.mCategory = p.mCategory;
+        this.mId = p.mId;
+        this.mAvatarPath = p.mAvatarPath;
+
+    }
+
     public Bitmap getAvatar() {
 
         if(mAvatarPath == null)
