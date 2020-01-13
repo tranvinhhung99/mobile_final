@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,7 +40,6 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
     private static final int SUCCESS_INFORMATION_SHOW = 1001;
 
 
-
     private class CartItem extends Product{
         private long numProduct;
 
@@ -51,6 +51,8 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
 
     private ArrayList<CartItem> mCartItems;
     private CartAdapter mAdapter;
+    private DatabaseReference mCartRef;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,18 +76,24 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
 
     private void queryData(){
 
-        DatabaseReference cartRef = FirebaseDatabase.getInstance().getReference()
+        mCartRef = FirebaseDatabase.getInstance().getReference()
                 .child("carts").child(FirebaseAuth.getInstance().getUid());
 
         final DatabaseReference itemsRef = FirebaseDatabase.getInstance().getReference()
                 .child("products");
 
-        cartRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        mCartRef.addListenerForSingleValueEvent(new ValueEventListener() {
             int numItemNeedToQuery = 0;
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 Map<String, Object> data = (HashMap<String, Object>) dataSnapshot.getValue();
+
+                if(data == null){
+                    Log.d(TAG, "This user havent have anything in cart yet");
+                    Toast.makeText(getBaseContext(), "There is no item", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 numItemNeedToQuery += data.size();
                 for(Map.Entry<String, Object> entry : data.entrySet()){
@@ -230,6 +238,8 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
             public void onSuccess(Void aVoid) {
                 Log.d(TAG, "Buy success");
 
+                removeCart();
+
                 Intent successIntent = new Intent(getBaseContext(), SuccessOrderActivity.class);
                 successIntent.putExtra("total_price", getTotalPrice());
                 startActivityForResult(successIntent, SUCCESS_INFORMATION_SHOW);
@@ -263,6 +273,10 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
 
     private void removeCart(){
         Log.d(TAG, "remove cart");
+        mCartRef.removeValue().isSuccessful();
+
+
+
     }
 
     @Override
