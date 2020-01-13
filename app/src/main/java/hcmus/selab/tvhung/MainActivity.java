@@ -2,6 +2,8 @@ package hcmus.selab.tvhung;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+
 import hcmus.selab.tvhung.adapters.ProductAdapter;
 import hcmus.selab.tvhung.models.Product;
 import hcmus.selab.tvhung.models.ProductBuilder;
@@ -9,15 +11,22 @@ import hcmus.selab.tvhung.models.ProductBuilder;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,13 +51,19 @@ public class MainActivity extends AppCompatActivity {
 
     private ValueEventListener mProductListener;
 
+    // Search feature
+    private SearchView searchView;
+    private ImageView btn_shopping_cart;
+    private ArrayList<Product> mProducts;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         // Init Grid View
-        mProductAdapter = new ProductAdapter(getBaseContext(), R.layout.product_item_layout, new ArrayList<Product>());
+        mProducts = new ArrayList<Product>();
+        mProductAdapter = new ProductAdapter(getBaseContext(), R.layout.product_item_layout, mProducts);
         GridView gridView = findViewById(R.id.grid_view_items);
         gridView.setAdapter(mProductAdapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -60,13 +75,45 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("product", product);
                 startActivity(intent);
 
+            }
+        });
 
+        // Init Search view
+        searchView = findViewById(R.id.searchView);
+
+        // Init shopping cart button
+        btn_shopping_cart = findViewById(R.id.shopping_cart);
+        btn_shopping_cart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent cart = new Intent(MainActivity.this, CartActivity.class);
+                    startActivity(cart);
+                }
+        });
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+//                Toast.makeText(getBaseContext(), query, Toast.LENGTH_LONG).show();
+
+                // After user submit a query
+                Intent search = new Intent(MainActivity.this, SearchActivity.class);
+                search.putExtra("products", mProducts);
+                startActivity(search);
+
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+//                Toast.makeText(getBaseContext(), newText, Toast.LENGTH_LONG).show();
+                return false;
             }
         });
 
         // Init database
         mProductReference = FirebaseDatabase.getInstance().getReference().child("products");
-
         mStorage = FirebaseStorage.getInstance();
 
     }
