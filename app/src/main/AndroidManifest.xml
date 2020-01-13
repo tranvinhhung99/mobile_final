@@ -17,8 +17,6 @@
 
         <activity android:name=".CartActivity"></activity>
 
-        <activity android:name=".RegisterActivity"></activity>
-
         <activity android:name=".ProductActivity" />
         <activity
             android:name=".LoginActivity"
