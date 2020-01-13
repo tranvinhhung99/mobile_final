@@ -32,4 +32,22 @@
         <item name="android:colorButtonNormal">@color/colorPrimaryDark</item>
     </style>
 
+
+    <style name="GridCellKey" parent="Widget.AppCompat.TextView">
+        <item name="android:padding">3dp</item>
+        <item name="android:layout_marginEnd">1dp</item>
+
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+
+        <item name="android:layout_gravity">fill_horizontal</item>
+
+    </style>
+
+    <style name="GridCellValue" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">3dp</item>
+    </style>
+
 </resources>
