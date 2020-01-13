@@ -87,6 +87,8 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
 
                 Map<String, Object> data = (HashMap<String, Object>) dataSnapshot.getValue();
 
+                if (data == null)
+                    return;
                 numItemNeedToQuery += data.size();
                 for(Map.Entry<String, Object> entry : data.entrySet()){
                     queryItemData(entry.getKey(), (Long) entry.getValue());

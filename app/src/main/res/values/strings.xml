@@ -1,6 +1,16 @@
 <resources>
     <string name="app_name">eShop</string>
-
+    <string name="home">Home</string>
+    <string name="search">Search</string>
+    <string name="profile">Profile</string>
+    <string name="notification">Notify</string>
+    <string name="likes">Favs</string>
+    <string name="happy">Happy</string>
+    <string name="room">Room</string>
+    <string name="restaurant">Food</string>
+    <string name="shop">Shop</string>
+    <string name="photos">Pics</string>
+    <string name="call">Call</string>
 
     <string name="format_price">%d d</string>
     <string name="format_num_rating">\( %1$d \)</string>
