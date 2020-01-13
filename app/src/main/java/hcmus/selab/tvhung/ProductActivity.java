@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.GridLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -50,6 +51,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
 
         // Set OnClickListener
         findViewById(R.id.btn_add_to_cart).setOnClickListener(this);
+        findViewById(R.id.btn_back).setOnClickListener(this);
 
         // Create fake map
 
@@ -141,6 +143,11 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
 
         if(id == R.id.btn_add_to_cart)
             addToCart();
+        if(id == R.id.btn_back)
+        {
+            finish();
+        }
+
     }
 
 

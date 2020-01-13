@@ -27,10 +27,10 @@
         <ImageView
             android:id="@+id/shopping_cart"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_weight="1"
-            android:paddingTop="5dp"
-            android:src="@drawable/shopping_cart"
+            android:padding="2dp"
+            android:src="@drawable/cart"
             />
     </LinearLayout>
 

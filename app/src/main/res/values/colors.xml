@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#f6abb6</color>
     <color name="colorAccent">#abf6eb</color>
     <color name="colorPrimaryLight">#4c8c4a</color>
+
+    <color name="colorButton">#d81b60</color>
 <!--    <color name="colorPrimary">#1b5e20</color>-->
 <!--    <color name="colorPrimaryDark">#003300</color>-->
 <!--    <color name="colorAccent">#D81B60</color>-->
@@ -48,6 +50,8 @@
     <color name="yellow_bg_light">#fffde7</color>
     <color name="orange_bg_light">#fff3e0</color>
     <color name="grey_bg_light">#fafafa</color>
+    <color name="grey_light">#E0E0E0</color>
+
 
 
 </resources>

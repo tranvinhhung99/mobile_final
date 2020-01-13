@@ -116,7 +116,10 @@ public class MainActivity extends AppCompatActivity {
         mProductReference = FirebaseDatabase.getInstance().getReference().child("products");
         mStorage = FirebaseStorage.getInstance();
 
+
+        
     }
+
 
     @Override
     protected void onStart() {
