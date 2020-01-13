@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.gauravk.bubblenavigation.BubbleToggleView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseStorage mStorage;
 
     private ValueEventListener mProductListener;
+    private BubbleToggleView btn_home;
 
     // Search feature
     private SearchView searchView;
@@ -80,17 +82,25 @@ public class MainActivity extends AppCompatActivity {
 
         // Init Search view
         searchView = findViewById(R.id.searchView);
+        btn_home = findViewById(R.id.l_item_home);
 
         // Init shopping cart button
         btn_shopping_cart = findViewById(R.id.shopping_cart);
         btn_shopping_cart.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent cart = new Intent(MainActivity.this, CartActivity.class);
-                    startActivity(cart);
-                }
+            @Override
+            public void onClick(View view) {
+                Intent cart = new Intent(MainActivity.this, CartActivity.class);
+                startActivity(cart);
+            }
         });
 
+        btn_home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent home = new Intent(MainActivity.this, MainActivity.class);
+                startActivity(home);
+            }
+        });
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             @Override
@@ -117,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         mStorage = FirebaseStorage.getInstance();
 
 
-        
+
     }
 
 

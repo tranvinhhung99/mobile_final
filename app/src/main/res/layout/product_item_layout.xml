@@ -4,11 +4,13 @@
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="6dp">
+    android:background="@drawable/layout_item_bg"
+    android:padding="4dp">
 
     <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="7dp"
         tools:src="@drawable/ic_launcher_background"
         android:id="@+id/item_avatar"
         android:layout_gravity="center_horizontal"/>

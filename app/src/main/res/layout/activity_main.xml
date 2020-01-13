@@ -18,7 +18,7 @@
             android:id="@+id/searchView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/input_design"
+            android:background="@drawable/layout_bg"
             android:elevation="2dp"
             android:layout_weight="5"
             android:queryHint="Input item name...."
@@ -43,6 +43,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:numColumns="auto_fit"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp"
+            android:scrollbars="none"
+            android:horizontalSpacing="15dp"
+            android:verticalSpacing="15dp"
             tools:listitem="@layout/product_item_layout"
             android:id="@+id/grid_view_items"/>
     </LinearLayout>
