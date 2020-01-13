@@ -33,9 +33,8 @@
         android:textStyle="bold"
 
         />
-
     <EditText
-        android:id="@+id/signup_password_input"
+        android:id="@+id/signup_userID_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/signup_email_input"
@@ -44,8 +43,27 @@
         android:layout_marginTop="5dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
+        android:hint="UserID"
+        android:inputType="text"
+        android:textColor="@color/colorPrimaryDark"
+        android:textColorHint="@color/colorPrimaryDark"
+        android:textSize="17dp"
+        android:textStyle="bold"
+
+        />
+
+    <EditText
+        android:id="@+id/signup_password_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signup_userID_input"
+        android:background="@drawable/input_design"
+        android:padding="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:hint="Password"
-        android:inputType="number"
+        android:inputType="textPassword"
         android:textColor="@color/colorPrimaryDark"
         android:textColorHint="@color/colorPrimaryDark"
         android:textSize="17dp"

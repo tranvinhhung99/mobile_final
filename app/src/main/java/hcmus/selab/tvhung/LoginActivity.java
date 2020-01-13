@@ -4,12 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,12 +27,22 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 // BASED: https://github.com/firebase/quickstart-android/blob/master/auth/app/src/main/java/com/google/firebase/quickstart/auth/java/GoogleSignInActivity.java
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = LoginActivity.class.toString();
     private static final int GOOGLE_SIGN_IN_REQUEST = 9001;
+
+    // Sign in manually
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    final DatabaseReference table_user = database.getReference("user");
+    EditText input_email, input_password;
 
     // Signup button
     private Button btn_signup;
@@ -52,6 +64,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // Btn listener add
         findViewById(R.id.btn_login_google).setOnClickListener(this);
         findViewById(R.id.btn_signup).setOnClickListener(this);
+
+        input_email = findViewById(R.id.input_email);
+        input_password = findViewById(R.id.input_password);
 
         // [START config_signin]
         // Configure Google Sign In
@@ -132,6 +147,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         int id = view.getId();
 
+        if (id == R.id.btn_login)
+        {
+            signIn();
+        }
         if(id == R.id.btn_login_google){
             signInByGoogle();
         }
@@ -141,6 +160,37 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
     }
+
+    public void signIn() {
+        table_user.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.child(input_email.getText().toString()).exists())
+                {
+                    User user = dataSnapshot.child(input_email.getText().toString()).getValue(User.class);
+                    if (user.password.equals(input_password.getText().toString()))
+                    {
+                        Toast.makeText(LoginActivity.this, "Sign in successfully", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(LoginActivity.this, "Sign in failed", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else
+                {
+                    Toast.makeText(LoginActivity.this, "User does not exist", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     public void signUp(){
         Intent signUp = new Intent(LoginActivity.this, RegisterActivity.class);
         startActivity(signUp);

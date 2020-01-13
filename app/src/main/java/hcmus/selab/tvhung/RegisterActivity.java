@@ -25,8 +25,11 @@ import java.util.HashMap;
 public class RegisterActivity extends AppCompatActivity {
 
     private Button createAccountButton;
-    private EditText inputEmail, inputPassword;
+    private EditText inputEmail, inputUserID,inputPassword;
     private ProgressDialog loadingBar;
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    final DatabaseReference table_user = database.getReference("user");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         createAccountButton = findViewById(R.id.signup_btn);
         inputEmail = findViewById(R.id.signup_email_input);
+        inputUserID = findViewById(R.id.signup_userID_input);
         inputPassword = findViewById(R.id.signup_password_input);
         loadingBar = new ProgressDialog(this);
 
@@ -47,71 +51,28 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void createAccount() {
-        String email = inputEmail.getText().toString();
-        String password = inputPassword.getText().toString();
+       table_user.addValueEventListener(new ValueEventListener() {
+           @Override
+           public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-        if (TextUtils.isEmpty(email)) {
-            Toast.makeText(this, "Please input email", Toast.LENGTH_SHORT).show();
-        } else if (TextUtils.isEmpty(password)) {
-            Toast.makeText(this, "Please write your password...", Toast.LENGTH_SHORT).show();
-        } else {
-            loadingBar.setTitle("Create account");
-            loadingBar.setMessage("Please wait, we are checking the credentials");
-            loadingBar.setCanceledOnTouchOutside(false);
-            loadingBar.show();
+               if (dataSnapshot.child(inputEmail.getText().toString()).exists() || dataSnapshot.child(inputUserID.getText().toString()).exists())
+               {
+                   Toast.makeText(RegisterActivity.this, "Email has been used", Toast.LENGTH_SHORT).show();
+               }
+               else
+               {
+                   User user = new User(inputEmail.getText().toString(), inputUserID.getText().toString(), inputPassword.getText().toString());
+                   table_user.child(inputUserID.getText().toString()).setValue(user);
+                   Toast.makeText(RegisterActivity.this, "Sign up successfully", Toast.LENGTH_SHORT).show();
+                   finish();
+               }
+           }
 
-            validateEmail(email, password);
-        }
+           @Override
+           public void onCancelled(@NonNull DatabaseError databaseError) {
+
+           }
+       });
 
     }
-
-    private void validateEmail(final String email, final String password) {
-            final DatabaseReference RootRef;
-
-            RootRef = FirebaseDatabase.getInstance().getReference();
-
-            RootRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if (!(dataSnapshot.child("users").child(email).exists()))
-                    {
-                        HashMap<String, Object> userdataMap = new HashMap<>();
-                        userdataMap.put("name", email);
-                        userdataMap.put("password", password);
-
-                        RootRef.child("users").child(email).updateChildren(userdataMap)
-                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()) {
-                                            Toast.makeText(RegisterActivity.this, "Successfully created new account", Toast.LENGTH_SHORT).show();
-                                            loadingBar.dismiss();
-
-                                            Intent login = new Intent(RegisterActivity.this, LoginActivity.class);
-                                            startActivity(login);
-
-                                        } else {
-                                            loadingBar.dismiss();
-                                            Toast.makeText(RegisterActivity.this, "Network Error", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                });
-                    }
-                    else
-                    {
-                        Toast.makeText(RegisterActivity.this, "This " + email + " already exists", Toast.LENGTH_SHORT).show();
-                        loadingBar.dismiss();
-                        Toast.makeText(RegisterActivity.this, "Please try again using another phone number", Toast.LENGTH_SHORT).show();
-
-                        Intent register = new Intent(RegisterActivity.this, SplashActivity.class);
-                        startActivity(register);
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
-        }
 }
