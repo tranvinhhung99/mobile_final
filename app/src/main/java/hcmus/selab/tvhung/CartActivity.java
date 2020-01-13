@@ -1,18 +1,21 @@
 package hcmus.selab.tvhung;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import hcmus.selab.tvhung.adapters.ProductAdapter;
 import hcmus.selab.tvhung.models.Product;
 import hcmus.selab.tvhung.models.ProductBuilder;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,14 +24,21 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CartActivity extends AppCompatActivity {
+public class CartActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static String TAG = CartActivity.class.toString();
+    private static final String TAG = CartActivity.class.toString();
+    private static final int USER_INFORMATION_REQUEST = 1000;
+    private static final int SUCCESS_INFORMATION_SHOW = 1001;
+
+
 
     private class CartItem extends Product{
         private long numProduct;
@@ -56,6 +66,9 @@ public class CartActivity extends AppCompatActivity {
 
         // Query data in database to show
         queryData();
+
+        // Add Listener to btn
+        findViewById(R.id.btn_buy).setOnClickListener(this);
 
     }
 
@@ -165,8 +178,103 @@ public class CartActivity extends AppCompatActivity {
             CartItemViewHolder cartViewHolder = (CartItemViewHolder) holder;
             cartViewHolder.textViewQuantity.setText("x" + mCartItems.get(position).numProduct);
         }
+
+
+        @Override
+        public void notifyDataSetChanged() {
+            super.notifyDataSetChanged();
+            ((TextView) findViewById(R.id.text_view_total_price)).setText(String.valueOf(getTotalPrice()));
+        }
     }
 
+
+    private long getTotalPrice(){
+        long result = 0;
+        for(CartItem item : mCartItems){
+            result += item.getPrice() * item.numProduct;
+        }
+        return result;
+    }
+
+    private void buyRequest(Map<String, Object> userInformation){
+        DatabaseReference orderReference = FirebaseDatabase.getInstance().getReference()
+                .child("orders/current");
+        
+        // Get data for request
+        String orderId = orderReference.push().getKey();
+
+        Date today = Calendar.getInstance().getTime();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+        String formattedString = dateFormat.format(today);
+
+        Map<String, Object> items = new HashMap<>();
+        for(CartItem item : mCartItems){
+            items.put(item.getId(), item.numProduct);
+        }
+
+        String uid = FirebaseAuth.getInstance().getUid();
+        userInformation.put("uid", uid);
+
+        // Generate output map
+        Map<String, Object> outputData = new HashMap<>();
+        outputData.put("date", formattedString);
+        outputData.put("user", userInformation);
+        outputData.put("items", items);
+
+        // Send data to Firebase
+        Map<String, Object> updateChild = new HashMap<>();
+        updateChild.put("/" + orderId, outputData);
+
+        orderReference.updateChildren(updateChild).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "Buy success");
+
+                Intent successIntent = new Intent(getBaseContext(), SuccessOrderActivity.class);
+                successIntent.putExtra("total_price", getTotalPrice());
+                startActivityForResult(successIntent, SUCCESS_INFORMATION_SHOW);
+
+            }
+        });
+
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == USER_INFORMATION_REQUEST && resultCode == RESULT_OK){
+
+            // Convert Intent data to map
+            Map<String, Object> userInformation = new HashMap<>();
+            userInformation.put("name", data.getStringExtra("name"));
+            userInformation.put("address", data.getStringExtra("address"));
+            userInformation.put("phone", data.getStringExtra("phone"));
+
+            buyRequest(userInformation);
+
+        }
+        else if(requestCode == SUCCESS_INFORMATION_SHOW){
+            finish();
+        }
+
+    }
+
+    private void removeCart(){
+        Log.d(TAG, "remove cart");
+    }
+
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+        if(id == R.id.btn_buy)
+            startActivityForResult(
+                    new Intent(getBaseContext(), PaymentActivity.class),
+                    USER_INFORMATION_REQUEST
+            );
+
+    }
 
 
 }
