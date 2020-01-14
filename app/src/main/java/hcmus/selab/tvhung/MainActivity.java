@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_home:
+                        finish();
                         startActivity(new Intent(MainActivity.this, MainActivity.class));
                         return true;
                     case R.id.action_scan:

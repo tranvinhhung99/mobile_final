@@ -145,9 +145,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
     // [END signin]
 
-    private void signOut() {
-        mAuth.signOut();
-    }
+//    private void signOut() {
+//        mAuth.signOut();
+//    }
 
     @Override
     public void onClick(View view) {
@@ -162,11 +162,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
         if(id == R.id.btn_signup)
         {
-            createAccount(input_email.getText().toString(), input_password.getText().toString());
+            startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
         }
-
     }
 
+    public void signOut() {
+        // Firebase sign out
+        mAuth.signOut();
+
+        // Google sign out
+        mGoogleSignInClient.signOut().addOnCompleteListener(this,
+                new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        startActivity(new Intent(LoginActivity.this, SplashActivity.class));
+                    }
+                });
+    }
 
     private boolean validateForm() {
         if (TextUtils.isEmpty(input_email.getText().toString())) {
@@ -182,32 +194,32 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void createAccount(String email, String password) {
-        if (!validateForm()) {
-            return;
-        }
-        if (password.length() < 8)
-        {
-            Toast.makeText(LoginActivity.this, "Password needs to be at lease 8 characters", Toast.LENGTH_SHORT).show();
-        }
-        else
-        {
-            mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful())
-                    {
-                        Toast.makeText(LoginActivity.this, "Successfully registered", Toast.LENGTH_SHORT).show();
-
-                        startActivity(new Intent(getBaseContext(), MainActivity.class));
-                    }
-                    else {
-                        Toast.makeText(LoginActivity.this, "Fail to sign up", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-        }
-    }
+//    private void createAccount(String email, String password) {
+//        if (!validateForm()) {
+//            return;
+//        }
+//        if (password.length() < 8)
+//        {
+//            Toast.makeText(LoginActivity.this, "Password needs to be at lease 8 characters", Toast.LENGTH_SHORT).show();
+//        }
+//        else
+//        {
+//            mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+//                @Override
+//                public void onComplete(@NonNull Task<AuthResult> task) {
+//                    if (task.isSuccessful())
+//                    {
+//                        Toast.makeText(LoginActivity.this, "Successfully registered", Toast.LENGTH_SHORT).show();
+//
+//                        startActivity(new Intent(getBaseContext(), MainActivity.class));
+//                    }
+//                    else {
+//                        Toast.makeText(LoginActivity.this, "Fail to sign up", Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//            });
+//        }
+//    }
 
     private void signIn(String email, String password) {
         if (!validateForm()){

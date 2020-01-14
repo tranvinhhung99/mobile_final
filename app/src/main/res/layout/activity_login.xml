@@ -4,11 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
-    android:layout_marginVertical="@dimen/activity_vertical_margin"
+
     tools:context=".LoginActivity"
     android:orientation="vertical"
+    android:background="#fce4ec"
     tools:theme="@style/AppTheme.Dark">
+
+    <ImageView android:src="@drawable/hautee_logo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/logo_circle"
+        android:layout_gravity="center_horizontal" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layout_email"
@@ -20,6 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
+            android:textColor="@color/textColor"
             android:hint="Email" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -35,6 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
+            android:textColor="@color/textColor"
             android:hint="Password (at lease 8 characters)" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -77,8 +86,8 @@
         android:text="No account yet? Create one by Sign Up"
         android:gravity="center"
         android:textAllCaps="false"
-        android:background="@color/colorPrimaryDark"
-        android:textColor="@android:color/black"
+        android:background="#ff4081"
+        android:textColor="@color/textColor"
         android:textSize="16dip"/>
 
 

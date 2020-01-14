@@ -84,6 +84,7 @@
     <color name="blue">#293859</color>
     <color name="lightgrey">#EEEEEE</color>
     <color name="goodgrey">#535353</color>
+    <color name="textColor">#880E4F</color>
     <!--Splash Screen-->
     <item name="splash_background" type="color">@color/colorPrimary</item>
 </resources>
