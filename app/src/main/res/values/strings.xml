@@ -1,7 +1,8 @@
 <resources>
-    <string name="app_name">eShop</string>
+    <string name="app_name">Haute</string>
     <string name="home">Home</string>
     <string name="search">Search</string>
+    <string name="scan">QR Code</string>
     <string name="profile">Profile</string>
     <string name="notification">Notify</string>
     <string name="likes">Favs</string>
