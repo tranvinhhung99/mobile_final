@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -12,7 +13,7 @@ import com.google.android.material.textfield.TextInputEditText;
 public class PaymentActivity extends AppCompatActivity {
 
     private TextInputEditText mName, mAddress, mPhone;
-
+    private CheckBox chk_StandardShipping, chk_ExpressShipping;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,9 @@ public class PaymentActivity extends AppCompatActivity {
         mAddress = findViewById(R.id.customer_address);
         mPhone = findViewById(R.id.customer_phone);
 
+        chk_StandardShipping = findViewById(R.id.chk_StandardShipping);
+        chk_ExpressShipping = findViewById(R.id.chk_ExpressShipping);
+
         // Set on click listener
         findViewById(R.id.btn_buy).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -32,6 +36,27 @@ public class PaymentActivity extends AppCompatActivity {
             }
         });
 
+        chk_StandardShipping.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (((CheckBox)view).isChecked()){
+                    Toast.makeText(PaymentActivity.this,
+                            "You have chosen Standard Shipping", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
+
+        chk_ExpressShipping.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (((CheckBox)view).isChecked()){
+                    Toast.makeText(PaymentActivity.this,
+                            "You have chosen Express Shipping", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
     }
 
     private void buy(){
