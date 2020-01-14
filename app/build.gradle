@@ -50,5 +50,10 @@ dependencies {
     implementation 'com.daimajia.slider:library:1.1.5@aar'
     implementation 'de.hdodenhof:circleimageview:3.0.1'
     implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.airbnb.android:lottie:3.2.2'
+//    implementation 'agency.tango.android:material-intro-screen:0.0.5'
+    implementation 'io.github.dreierf:material-intro-screen:0.0.6'
+    implementation 'com.github.AppIntro:AppIntro:5.1.0'
+
 }
 apply plugin: 'com.google.gms.google-services'

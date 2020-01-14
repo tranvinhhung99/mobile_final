@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -61,7 +62,8 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
     // Buttons handle
 
     private ImageButton btnBack_cart;
-    private ImageView img_empty_cart;
+//    private ImageView img_empty_cart;
+    LottieAnimationView img_empty_cart;
     private LinearLayout layout_price_cart;
     private TextView total_cart;
     private Button btnPay_cart, btnBuy_cart;

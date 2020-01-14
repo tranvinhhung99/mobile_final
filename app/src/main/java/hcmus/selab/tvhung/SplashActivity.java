@@ -11,6 +11,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.airbnb.lottie.LottieAnimationView;
+
 public class SplashActivity extends AppCompatActivity {
 
     LinearLayout l1,l2;
@@ -20,7 +22,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        btnsub = (Button)findViewById(R.id.buttonsub);
+
         l1 = (LinearLayout) findViewById(R.id.l1);
         l2 = (LinearLayout) findViewById(R.id.l2);
         uptodown = AnimationUtils.loadAnimation(this,R.anim.uptodown);
@@ -28,12 +30,23 @@ public class SplashActivity extends AppCompatActivity {
         l1.setAnimation(uptodown);
         l2.setAnimation(downtoup);
 
-        btnsub.setOnClickListener(new View.OnClickListener() {
+
+        LottieAnimationView lottieAnimationView = findViewById(R.id.animationOpen);
+        lottieAnimationView.playAnimation();
+//        final Intent intent = new Intent(this, MainActivity.class);
+        final Intent intent = new Intent(this, IntroActivity.class);
+        new Thread(new Runnable() {
             @Override
-            public void onClick(View view) {
-                Intent startLoginActivity = new Intent(SplashActivity.this, LoginActivity.class);
-                startActivity(startLoginActivity);
+            public void run() {
+                try {
+                    Thread.sleep(3000);
+                    startActivity(intent);
+                    finish();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-        });
+        }).start();
     }
+
 }

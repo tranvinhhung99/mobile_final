@@ -19,13 +19,21 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-
-                <ImageView
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/img_success_order"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:src="@drawable/green_check"
                     android:layout_gravity="center_horizontal"
-                    />
+                    android:layout_marginBottom="30dp"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/success_order" />
+<!--                <ImageView-->
+<!--                    android:layout_width="80dp"-->
+<!--                    android:layout_height="80dp"-->
+<!--                    android:src="@drawable/green_check"-->
+<!--                    android:layout_gravity="center_horizontal"-->
+<!--                    />-->
 
                 <TextView
                     android:layout_marginTop="10dp"
