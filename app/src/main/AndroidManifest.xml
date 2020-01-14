@@ -13,6 +13,7 @@
         android:roundIcon="@mipmap/hautee"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ProfileActivity"></activity>
         <activity android:name=".IntroActivity" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".SuccessOrderActivity" />

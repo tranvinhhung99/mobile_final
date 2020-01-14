@@ -14,7 +14,9 @@ import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.ContactsContract;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -27,6 +29,7 @@ import android.widget.Toast;
 import com.gauravk.bubblenavigation.BubbleToggleView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -51,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseStorage mStorage;
 
     private ValueEventListener mProductListener;
-    private BubbleToggleView btn_home;
+    BottomNavigationView bottomNavigationView;
 
     // Search feature
     private SearchView searchView;
@@ -62,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         // Init Grid View
         mProducts = new ArrayList<Product>();
@@ -82,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Init Search view
         searchView = findViewById(R.id.searchView);
-        btn_home = findViewById(R.id.l_item_home);
+
 
         // Init shopping cart button
         btn_shopping_cart = findViewById(R.id.shopping_cart);
@@ -94,13 +99,34 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btn_home.setOnClickListener(new View.OnClickListener() {
+        bottomNavigationView.setItemIconTintList(null);
+        // Event handler bottom nav bar
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onClick(View view) {
-                Intent home = new Intent(MainActivity.this, MainActivity.class);
-                startActivity(home);
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_home:
+                        startActivity(new Intent(MainActivity.this, MainActivity.class));
+                        return true;
+                    case R.id.action_scan:
+                        // do something
+                        Toast.makeText(getBaseContext(), "Update QR Code later", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.action_favorites:
+                        Toast.makeText(getBaseContext(), "Update favorites later", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.action_notifications:
+                        Toast.makeText(getBaseContext(), "Update notification later", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.action_profile:
+                        startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+                        return true;
+                    default: return true;
+                }
             }
         });
+
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             @Override
