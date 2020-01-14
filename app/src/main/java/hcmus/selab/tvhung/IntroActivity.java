@@ -37,7 +37,7 @@ public class IntroActivity extends AppIntro {
         }
 
     private void startShopping() {
-        startActivity(new Intent(IntroActivity.this, MainActivity.class));
+        startActivity(new Intent(IntroActivity.this, LoginActivity.class));
     }
 
     @Override

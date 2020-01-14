@@ -1,7 +1,8 @@
 <resources>
-    <string name="app_name">eShop</string>
+    <string name="app_name">Haute</string>
     <string name="home">Home</string>
     <string name="search">Search</string>
+    <string name="scan">QR Code</string>
     <string name="profile">Profile</string>
     <string name="notification">Notify</string>
     <string name="likes">Favs</string>
@@ -28,5 +29,12 @@
     <string name="menu_tools">Tools</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
+
+    <string name="my_desc">Yêu màu tím, ghét sự giả dối. Yêu hòa bình, ghét chiến tranh</string>
+    <string name="about_me">About Me</string>
+    <string name="contact">Contact</string>
+    <string name="favorites">Favorites</string>
+    <string name="ratings">Star Ratings</string>
+    <string name="samplereview">Mắt kính đẹp, xịn mỗi tội hơi đắt :( Nhưng mị thích =)) </string>
 
 </resources>

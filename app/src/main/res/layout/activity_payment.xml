@@ -46,7 +46,32 @@
             android:hint="Phone"
             android:id="@+id/customer_phone"
             android:layout_marginBottom="10dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="We currently only support COD shipping as our system is still on trial "
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="5dp"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <CheckBox
+                android:id="@+id/chk_StandardShipping"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Standard shipping (only $2.99 for nationwide shipping)" />
+
+            <CheckBox
+                android:id="@+id/chk_ExpressShipping"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Express shipping (only $3.99 for nationwide shipping)"
+                android:checked="true" />
+        </LinearLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="3dp"
@@ -81,7 +106,7 @@
     <com.google.android.material.button.MaterialButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Buy"
+        android:text="PURCHASE"
         android:layout_alignParentBottom="true"
         android:id="@+id/btn_buy"/>
 
