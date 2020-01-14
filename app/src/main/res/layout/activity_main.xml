@@ -4,7 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    android:background="#fefaec"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="match_parent"
     android:layout_marginVertical="@dimen/activity_vertical_margin"
     android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
     android:orientation="vertical">
@@ -18,7 +23,7 @@
             android:id="@+id/searchView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/input_design"
+            android:background="@drawable/layout_bg"
             android:elevation="2dp"
             android:layout_weight="5"
             android:queryHint="Input item name...."
@@ -27,10 +32,10 @@
         <ImageView
             android:id="@+id/shopping_cart"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_weight="1"
-            android:paddingTop="5dp"
-            android:src="@drawable/shopping_cart"
+            android:padding="2dp"
+            android:src="@drawable/cart"
             />
     </LinearLayout>
 
@@ -43,6 +48,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:numColumns="auto_fit"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp"
+            android:scrollbars="none"
+            android:horizontalSpacing="15dp"
+            android:verticalSpacing="15dp"
             tools:listitem="@layout/product_item_layout"
             android:id="@+id/grid_view_items"/>
     </LinearLayout>
@@ -56,7 +68,7 @@
         android:id="@+id/bottom_navigation_view_linear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+
         android:elevation="8dp"
         android:orientation="horizontal"
         android:gravity="bottom"
@@ -114,4 +126,4 @@
             app:bt_shape="@drawable/transition_background_drawable_person"
             app:bt_title="@string/profile" />
     </com.gauravk.bubblenavigation.BubbleNavigationLinearView>
-</LinearLayout>
+    </LinearLayout></LinearLayout>

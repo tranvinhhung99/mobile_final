@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.text.Format;
 
 public class SuccessOrderActivity extends AppCompatActivity {
@@ -19,12 +20,11 @@ public class SuccessOrderActivity extends AppCompatActivity {
 
         Intent inputIntent = getIntent();
         TextView textView = findViewById(R.id.text_view_total_price);
+        DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
         textView.setText(
-                String.format(
-                        textView.getText().toString(),
-                        inputIntent.getLongExtra("total_price", 0)
-                )
-        );
+                decimalFormat.format(
+                        inputIntent.getLongExtra("total_price", 0)).toString() + "đ"
+                );
 
 
         findViewById(R.id.btn_continue_shopping).setOnClickListener(new View.OnClickListener() {

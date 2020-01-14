@@ -12,10 +12,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -25,6 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -53,6 +59,14 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
     private CartAdapter mAdapter;
     private DatabaseReference mCartRef;
 
+    // Buttons handle
+
+    private ImageButton btnBack_cart;
+//    private ImageView img_empty_cart;
+    LottieAnimationView img_empty_cart;
+    private LinearLayout layout_price_cart;
+    private TextView total_cart;
+    private Button btnPay_cart, btnBuy_cart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +74,14 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_cart);
 
         mCartItems = new ArrayList<>();
+
+        // Find buttons
+        btnBack_cart = findViewById(R.id.btnBack_cart);
+        img_empty_cart = findViewById(R.id.img_empty_cart);
+        layout_price_cart = findViewById(R.id.layout_price_cart);
+        total_cart = findViewById(R.id.text_view_total_price);
+        btnBuy_cart = findViewById(R.id.btnBuy_cart);
+        btnPay_cart = findViewById(R.id.btnPay_cart);
 
         // Casting to adapt to ProductAdapter
         List<Product> products = (List<Product>) (List<? extends  Product>) mCartItems;
@@ -70,7 +92,12 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
         queryData();
 
         // Add Listener to btn
-        findViewById(R.id.btn_buy).setOnClickListener(this);
+        btnBack_cart.setOnClickListener(this);
+        btnBuy_cart.setOnClickListener(this);
+        btnPay_cart.setOnClickListener(this);
+        img_empty_cart.setOnClickListener(this);
+        layout_price_cart.setOnClickListener(this);
+        total_cart.setOnClickListener(this);
 
     }
 
@@ -90,8 +117,13 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
                 Map<String, Object> data = (HashMap<String, Object>) dataSnapshot.getValue();
 
                 if(data == null){
-                    Log.d(TAG, "This user havent have anything in cart yet");
-                    Toast.makeText(getBaseContext(), "There is no item", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "This user doesn't have anything in cart yet");
+//                    Toast.makeText(getBaseContext(), "There are no items", Toast.LENGTH_SHORT).show();
+
+//                    img_empty_cart.setVisibility(View.VISIBLE);
+//                    btnBuy_cart.setVisibility(View.VISIBLE);
+//                    btnPay_cart.setVisibility(View.INVISIBLE);
+//                    layout_price_cart.setVisibility(View.VISIBLE);
                     return;
                 }
 
@@ -130,12 +162,27 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
                         // Add to global data
                         mCartItems.add(cartItem);
 
-
                         numItemNeedToQuery--;
 
                         // Update UI when numItemNeedToQuery == 0
                         if(numItemNeedToQuery == 0)
+                        {
                             mAdapter.notifyDataSetChanged();
+                        }
+                        if (mCartItems.size() <= 0)
+                        {
+                            img_empty_cart.setVisibility(View.VISIBLE);
+                            btnBuy_cart.setVisibility(View.VISIBLE);
+                            btnPay_cart.setVisibility(View.INVISIBLE);
+                            layout_price_cart.setVisibility(View.VISIBLE);
+                        }
+                        else
+                        {
+                            img_empty_cart.setVisibility(View.INVISIBLE);
+                            btnBuy_cart.setVisibility(View.INVISIBLE);
+                            btnPay_cart.setVisibility(View.VISIBLE);
+                            layout_price_cart.setVisibility(View.VISIBLE);
+                        }
                     }
 
                     @Override
@@ -191,7 +238,8 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void notifyDataSetChanged() {
             super.notifyDataSetChanged();
-            ((TextView) findViewById(R.id.text_view_total_price)).setText(String.valueOf(getTotalPrice()));
+            DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
+            total_cart.setText(decimalFormat.format(getTotalPrice()) + "đ");
         }
     }
 
@@ -282,11 +330,15 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        if(id == R.id.btn_buy)
+        if(id == R.id.btnPay_cart)
             startActivityForResult(
                     new Intent(getBaseContext(), PaymentActivity.class),
                     USER_INFORMATION_REQUEST
             );
+        if(id == R.id.btnBack_cart || id == R.id.btnBuy_cart)
+        {
+            finish();
+        }
 
     }
 

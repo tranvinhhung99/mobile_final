@@ -11,7 +11,9 @@ import android.widget.TextView;
 
 import com.google.firebase.database.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import hcmus.selab.tvhung.CartActivity;
@@ -21,6 +23,7 @@ import hcmus.selab.tvhung.models.Product;
 public class ProductAdapter extends ArrayAdapter<Product> {
     private final int           mResourceId;
     private final List<Product> mProducts;
+
 
     protected class ViewHolder{
         ImageView avatar;
@@ -102,5 +105,6 @@ public class ProductAdapter extends ArrayAdapter<Product> {
     private void addProduct(Product product){
         mProducts.add(product);
     }
+
 
 }
