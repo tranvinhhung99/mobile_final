@@ -17,15 +17,22 @@
         android:layout_marginBottom="20dp"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        app:lottie_rawRes="@raw/fast_service" />
+        app:lottie_rawRes="@raw/world_map" />
 
-<!--    <TextView-->
-<!--        android:id="@+id/des_slide02"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="center"-->
-<!--        android:text="Purchase within a second"-->
-<!--        android:textSize="25sp"-->
-<!--        android:textColor="@color/black" />-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginBottom="15dp"
+        />
+    <TextView
+        android:id="@+id/des_slide01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="100dp"
+        android:text="Worldwide limited products"
+        android:fontFamily="@font/feena"
+        android:textSize="35sp"
+        android:textColor="@color/white" />
 
 </LinearLayout>
