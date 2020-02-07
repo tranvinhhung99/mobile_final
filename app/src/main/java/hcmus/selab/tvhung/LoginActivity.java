@@ -51,7 +51,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private TextView           mStatusTextView;
     private TextView           mDetailTextView;
 
-
     private EditText input_email, input_password;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private TextInputLayout layout_email, layout_password;
@@ -66,11 +65,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         layout_email = findViewById(R.id.layout_email);
         layout_password = findViewById(R.id.layout_password);
 
+
+
         // Btn listener add
         findViewById(R.id.btn_login).setOnClickListener(this);
         findViewById(R.id.btn_login_google).setOnClickListener(this);
         findViewById(R.id.btn_signup).setOnClickListener(this);
 
+        findViewById(R.id.forgot_password).setOnClickListener(this);
 
         // [START config_signin]
         // Configure Google Sign In
@@ -104,9 +106,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            final FirebaseUser user = mAuth.getCurrentUser();
                             Toast.makeText(getBaseContext(), "Login with Google Success", Toast.LENGTH_LONG).show();
 
+                            if (!user.isEmailVerified())
+                            {
+                                user.sendEmailVerification()
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    Log.d(TAG, "Email sent.");
+                                                    Toast.makeText(getBaseContext(), "Verification email sent to " + user.getEmail(), Toast.LENGTH_LONG).show();
+                                                }
+                                                else
+                                                {
+                                                    Toast.makeText(getBaseContext(), "Failed to send verification email to " + user.getEmail(), Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+                                        });
+                            }
                             startActivity(new Intent(getBaseContext(), MainActivity.class));
 
                         } else {
@@ -164,6 +183,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         {
             startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
         }
+        if(id == R.id.forgot_password)
+        {
+            startActivity(new Intent(LoginActivity.this, ForgetPasswordActivity.class));
+        }
     }
 
     public void signOut() {
@@ -193,33 +216,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return true;
         }
     }
-
-//    private void createAccount(String email, String password) {
-//        if (!validateForm()) {
-//            return;
-//        }
-//        if (password.length() < 8)
-//        {
-//            Toast.makeText(LoginActivity.this, "Password needs to be at lease 8 characters", Toast.LENGTH_SHORT).show();
-//        }
-//        else
-//        {
-//            mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-//                @Override
-//                public void onComplete(@NonNull Task<AuthResult> task) {
-//                    if (task.isSuccessful())
-//                    {
-//                        Toast.makeText(LoginActivity.this, "Successfully registered", Toast.LENGTH_SHORT).show();
-//
-//                        startActivity(new Intent(getBaseContext(), MainActivity.class));
-//                    }
-//                    else {
-//                        Toast.makeText(LoginActivity.this, "Fail to sign up", Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//            });
-//        }
-//    }
 
     private void signIn(String email, String password) {
         if (!validateForm()){

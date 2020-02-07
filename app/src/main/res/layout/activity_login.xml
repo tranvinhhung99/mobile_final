@@ -48,6 +48,16 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <TextView
+        android:id="@+id/forgot_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Forget password?"
+        android:textColor="@color/textColor"
+        android:gravity="right"
+        android:layout_marginRight="20dp">
+    </TextView>
+
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_login"
@@ -58,7 +68,7 @@
         android:padding="12dp"
         android:text="Sign in"/>
 
-    <TextView android:id="@+id/forgot_password"
+    <TextView android:id="@+id/or"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Or"

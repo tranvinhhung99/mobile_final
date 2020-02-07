@@ -32,7 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textCapWords"
-                android:textColor="@color/white"
+                android:textColor="@color/textColor"
                 android:hint="Name"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -47,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
-                android:textColor="@color/white"
+                android:textColor="@color/textColor"
                 android:hint="Email" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -63,7 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:textColor="@color/white"
+                android:textColor="@color/textColor"
                 android:hint="Password (at least 8 characters)"/>
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
@@ -77,7 +77,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:textColor="@color/white"
+                android:textColor="@color/textColor"
                 android:hint="Confirm your password"/>
         </com.google.android.material.textfield.TextInputLayout>
 

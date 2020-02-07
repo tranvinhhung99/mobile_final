@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -15,6 +16,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -110,7 +112,23 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     if (task.isSuccessful())
                     {
                         Toast.makeText(RegisterActivity.this, "Successfully registered", Toast.LENGTH_SHORT).show();
-
+                        final FirebaseUser user = mAuth.getCurrentUser();
+                        if (!user.isEmailVerified())
+                        {
+                            user.sendEmailVerification()
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                Toast.makeText(getBaseContext(), "Verification email sent to " + user.getEmail(), Toast.LENGTH_LONG).show();
+                                            }
+                                            else
+                                            {
+                                                Toast.makeText(getBaseContext(), "Failed to send verification email to " + user.getEmail(), Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+                                    });
+                        }
                         startActivity(new Intent(getBaseContext(), MainActivity.class));
                     }
                     else {
