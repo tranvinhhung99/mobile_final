@@ -8,6 +8,8 @@ import hcmus.selab.tvhung.adapters.ProductAdapter;
 import hcmus.selab.tvhung.models.Product;
 import hcmus.selab.tvhung.models.ProductBuilder;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
@@ -87,7 +89,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Init Search view
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchView = findViewById(R.id.searchView);
+
+
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setIconifiedByDefault(false);
 
 
         // Init shopping cart button
@@ -129,6 +136,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        final String searchVoiceQuery = getIntent().getStringExtra(SearchManager.QUERY);
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             @Override
@@ -138,22 +147,12 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                mProductAdapter.Filter_name(newText);
-//                mProducts.clear();
-//                if(text.length()==0) {
-//                    mProducts.addAll(mProductAdapter.mProducts);
-//                }
-//                else
-//                {
-//                    for (Product wp:mProducts){
-//                        if(wp.getName().toLowerCase(Locale.getDefault()).contains(text)) {
-//                            mProducts.add(wp);
-//                        }
-//                    }
-//                    mProductAdapter.notifyDataSetChanged();
-//                }
 
-//                listItemAdapter.Filter_name(text);
+                if (newText != null)
+                    mProductAdapter.Filter_name(newText);
+                if (searchVoiceQuery != null)
+                    mProductAdapter.Filter_name(searchVoiceQuery);
+
                 return false;
             }
         });
@@ -165,6 +164,15 @@ public class MainActivity extends AppCompatActivity {
         mStorage = FirebaseStorage.getInstance();
     }
 
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            searchView.setQuery(String.valueOf(query), false);
+        }
+    }
 
     @Override
     protected void onStart() {
