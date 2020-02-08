@@ -84,7 +84,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
         btnPay_cart = findViewById(R.id.btnPay_cart);
 
         // Casting to adapt to ProductAdapter
-        List<Product> products = (List<Product>) (List<? extends  Product>) mCartItems;
+        ArrayList<Product> products = (ArrayList<Product>) (List<? extends  Product>) mCartItems;
         mAdapter = new CartAdapter(getBaseContext(), R.layout.item_cart_layout, products);
         ((ListView) findViewById(R.id.items_list_view)).setAdapter(mAdapter);
 
@@ -212,7 +212,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-        public CartAdapter(Context context, int resource, List<Product> objects) {
+        public CartAdapter(Context context, int resource, ArrayList<Product> objects) {
             super(context, resource, objects);
         }
 

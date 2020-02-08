@@ -44,6 +44,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         // Init Grid View
-        mProducts = new ArrayList<Product>();
+        mProducts = new ArrayList<>();
         mProductAdapter = new ProductAdapter(getBaseContext(), R.layout.product_item_layout, mProducts);
         GridView gridView = findViewById(R.id.grid_view_items);
         gridView.setAdapter(mProductAdapter);
@@ -132,29 +133,36 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextSubmit(String query) {
-//                Toast.makeText(getBaseContext(), query, Toast.LENGTH_LONG).show();
-
-                // After user submit a query
-                Intent search = new Intent(MainActivity.this, SearchActivity.class);
-                search.putExtra("products", mProducts);
-                startActivity(search);
-
-                return true;
+                return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-//                Toast.makeText(getBaseContext(), newText, Toast.LENGTH_LONG).show();
+                mProductAdapter.Filter_name(newText);
+//                mProducts.clear();
+//                if(text.length()==0) {
+//                    mProducts.addAll(mProductAdapter.mProducts);
+//                }
+//                else
+//                {
+//                    for (Product wp:mProducts){
+//                        if(wp.getName().toLowerCase(Locale.getDefault()).contains(text)) {
+//                            mProducts.add(wp);
+//                        }
+//                    }
+//                    mProductAdapter.notifyDataSetChanged();
+//                }
+
+//                listItemAdapter.Filter_name(text);
                 return false;
             }
         });
 
         // Init database
+
+        // mProductReference --> return of all products
         mProductReference = FirebaseDatabase.getInstance().getReference().child("products");
         mStorage = FirebaseStorage.getInstance();
-
-
-
     }
 
 
@@ -167,6 +175,10 @@ public class MainActivity extends AppCompatActivity {
             mProductListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (mProductAdapter.mProducts.size() > 0)
+                    {
+                        mProductAdapter.mProducts.clear();
+                    }
                     collectProductList((Map<String, Object>) dataSnapshot.getValue());
                     mProductAdapter.notifyDataSetChanged();
                 }
@@ -176,7 +188,6 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             };
-
 
             mProductReference.addValueEventListener(mProductListener);
         }
@@ -191,6 +202,16 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    // Cart Adapter
+//    private void updateBadge(){
+//        int size=LocalVariable.cartArrayList.size();
+//        if(size>0) {
+//            btn_cart.setText(Integer.toString(size));
+//        }
+//        if(size==0){
+//            btn_cart.setText("");
+//        }
+//    }
 
     private void collectProductList(Map<String, Object> data){
         Log.i(TAG, "add new data");
@@ -212,11 +233,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            mProductAdapter.add(builder.createProduct());
-
-
+            mProductAdapter.mProducts.add(builder.createProduct());
+            mProducts.add(builder.createProduct());
         }
-
     }
 
     // Return file path if file already exists

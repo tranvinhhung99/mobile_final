@@ -11,18 +11,26 @@ import android.widget.TextView;
 
 import com.google.firebase.database.annotations.NotNull;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import hcmus.selab.tvhung.CartActivity;
 import hcmus.selab.tvhung.R;
 import hcmus.selab.tvhung.models.Product;
 
 public class ProductAdapter extends ArrayAdapter<Product> {
     private final int           mResourceId;
-    private final List<Product> mProducts;
+//    private final List<Product> mProducts;
+    static public ArrayList<Product> mProducts;
+    static public ArrayList<Product> mProductsList;
 
 
     protected class ViewHolder{
@@ -41,10 +49,11 @@ public class ProductAdapter extends ArrayAdapter<Product> {
         }
     }
 
-    public ProductAdapter(Context context, int resource, List<Product> objects) {
-        super(context, resource, objects);
+    public ProductAdapter(Context context, int resource, ArrayList<Product> objectsList) {
+        super(context, resource, objectsList);
         mResourceId = resource;
-        mProducts = objects;
+        mProductsList = objectsList;
+        mProducts = new ArrayList<>();
     }
 
 
@@ -80,7 +89,7 @@ public class ProductAdapter extends ArrayAdapter<Product> {
     }
 
     protected void inflateViewHolder(int position, ViewHolder holder) {
-        Product currentItem = mProducts.get(position);
+        Product currentItem = mProductsList.get(position);
         setAvatar(holder.avatar, currentItem);
         holder.name.setText(currentItem.getName());
 
@@ -88,7 +97,9 @@ public class ProductAdapter extends ArrayAdapter<Product> {
 //        holder.numRating.setText(Resources.getSystem().getString(R.string.format_num_rating, currentItem.getNumRating()));
         holder.numRating.setText(String.format("(%d)", currentItem.getNumRating()));
 //        holder.price.setText(Resources.getSystem().getString(R.string.format_price, currentItem.getPrice()));
-        holder.price.setText(String.format("%dd", currentItem.getPrice()));
+
+        DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
+        holder.price.setText(decimalFormat.format(currentItem.getPrice())+"đ");
         holder.ratingBar.setRating(currentItem.getRating());
 
         //TODO: Add listener for logic of ratingBar
@@ -102,8 +113,21 @@ public class ProductAdapter extends ArrayAdapter<Product> {
 
     }
 
-    private void addProduct(Product product){
-        mProducts.add(product);
+    public void Filter_name(String charText){
+        charText=charText.toLowerCase(Locale.getDefault());
+        mProductsList.clear();
+
+        if(charText.length()==0){
+            mProductsList.addAll(mProducts);
+        }else{
+            for(Product wp:mProducts){
+                if(wp.getName().toLowerCase(Locale.getDefault()).contains(charText)) {
+                    mProductsList.add(wp);
+                }
+            }
+            notifyDataSetChanged();
+            return;
+        }
     }
 
 
