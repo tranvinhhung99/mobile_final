@@ -8,11 +8,14 @@ import hcmus.selab.tvhung.adapters.ProductAdapter;
 import hcmus.selab.tvhung.models.Product;
 import hcmus.selab.tvhung.models.ProductBuilder;
 
+import android.app.Dialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.Image;
 import android.os.Bundle;
 import android.os.Environment;
@@ -26,6 +29,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gauravk.bubblenavigation.BubbleToggleView;
@@ -53,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final static String TAG = MainActivity.class.toString();
     private DatabaseReference mProductReference;
-    private ProductAdapter mProductAdapter;
+    static public ProductAdapter mProductAdapter;
     private FirebaseStorage mStorage;
 
     private ValueEventListener mProductListener;
@@ -62,14 +66,23 @@ public class MainActivity extends AppCompatActivity {
     // Search feature
     private SearchView searchView;
     private ImageView btn_shopping_cart;
-    private ArrayList<Product> mProducts;
+    static public ArrayList<Product> mProducts;
+
+    // Pop up window
+    Dialog myDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
         bottomNavigationView = findViewById(R.id.bottom_navigation);
+
+        // Init pop up windows
+        myDialog = new Dialog(this);
+        ShowPopup();
 
         // Init Grid View
         mProducts = new ArrayList<>();
@@ -115,11 +128,14 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.action_home:
                         finish();
-                        startActivity(new Intent(MainActivity.this, MainActivity.class));
+                        overridePendingTransition(0, 0);
+                        startActivity(getIntent());
+                        overridePendingTransition(0, 0);
                         return true;
                     case R.id.action_scan:
                         // do something
-                        Toast.makeText(getBaseContext(), "Update QR Code later", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getBaseContext(), "Update QR Code later", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(MainActivity.this, ScanQRActivity.class));
                         return true;
                     case R.id.action_favorites:
                         Toast.makeText(getBaseContext(), "Update favorites later", Toast.LENGTH_SHORT).show();
@@ -162,6 +178,8 @@ public class MainActivity extends AppCompatActivity {
         // mProductReference --> return of all products
         mProductReference = FirebaseDatabase.getInstance().getReference().child("products");
         mStorage = FirebaseStorage.getInstance();
+
+
     }
 
 
@@ -172,6 +190,30 @@ public class MainActivity extends AppCompatActivity {
             String query = intent.getStringExtra(SearchManager.QUERY);
             searchView.setQuery(String.valueOf(query), false);
         }
+    }
+
+    public void ShowPopup() {
+        TextView txtclose;
+        Button btnContinue;
+        myDialog.setContentView(R.layout.custom_popup);
+        txtclose = myDialog.findViewById(R.id.txtclose);
+//        txtclose.setText("X");
+        btnContinue = myDialog.findViewById(R.id.btn_continue_shopping);
+        txtclose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myDialog.dismiss();
+            }
+        });
+
+        btnContinue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myDialog.dismiss();
+            }
+        });
+        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.show();
     }
 
     @Override
@@ -266,7 +308,7 @@ public class MainActivity extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.e(TAG, "Cannot download " + file.toString());
+//                Log.e(TAG, "Cannot download " + file.toString());
                 e.printStackTrace();
             }
         });

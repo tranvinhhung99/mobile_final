@@ -39,7 +39,11 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
 
-        mProduct = (Product) this.getIntent().getSerializableExtra("product");
+        if (this.getIntent().getSerializableExtra("product") != null)
+            mProduct = (Product) this.getIntent().getSerializableExtra("product");
+
+        else if (this.getIntent().getSerializableExtra("product_scanned") != null)
+            mProduct = (Product) this.getIntent().getSerializableExtra("product_scanned");
 
         // Show UI
         Resources resources = Resources.getSystem();

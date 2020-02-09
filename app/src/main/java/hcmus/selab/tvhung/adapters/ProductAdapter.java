@@ -1,6 +1,7 @@
 package hcmus.selab.tvhung.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,20 +28,20 @@ import hcmus.selab.tvhung.R;
 import hcmus.selab.tvhung.models.Product;
 
 public class ProductAdapter extends ArrayAdapter<Product> {
-    private final int           mResourceId;
-//    private final List<Product> mProducts;
+    private final int mResourceId;
+    //    private final List<Product> mProducts;
     static public ArrayList<Product> mProducts;
     static public ArrayList<Product> mProductsList;
 
 
-    protected class ViewHolder{
+    protected class ViewHolder {
         ImageView avatar;
-        TextView  name;
-        TextView  price;
+        TextView name;
+        TextView price;
         RatingBar ratingBar;
         TextView numRating;
 
-        protected void copy(ViewHolder other){
+        protected void copy(ViewHolder other) {
             avatar = other.avatar;
             name = other.name;
             price = other.price;
@@ -61,14 +62,13 @@ public class ProductAdapter extends ArrayAdapter<Product> {
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         View v = convertView;
         ViewHolder holder;
-        if(v == null){
+        if (v == null) {
             v = LayoutInflater.from(getContext()).inflate(mResourceId, null);
 
             holder = this.getViewHolder(v);
 
             v.setTag(holder);
-        }
-        else{
+        } else {
             holder = (ViewHolder) v.getTag();
         }
 
@@ -99,7 +99,7 @@ public class ProductAdapter extends ArrayAdapter<Product> {
 //        holder.price.setText(Resources.getSystem().getString(R.string.format_price, currentItem.getPrice()));
 
         DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
-        holder.price.setText(decimalFormat.format(currentItem.getPrice())+"đ");
+        holder.price.setText(decimalFormat.format(currentItem.getPrice()) + "đ");
         holder.ratingBar.setRating(currentItem.getRating());
 
         //TODO: Add listener for logic of ratingBar
@@ -107,21 +107,21 @@ public class ProductAdapter extends ArrayAdapter<Product> {
     }
 
 
-    private void setAvatar(ImageView imageView, Product product){
+    private void setAvatar(ImageView imageView, Product product) {
         //TODO: Edit getting image avatar later.
         imageView.setImageBitmap(product.getAvatar());
 
     }
 
-    public void Filter_name(String charText){
-        charText=charText.toLowerCase(Locale.getDefault());
+    public void Filter_name(String charText) {
+        charText = charText.toLowerCase(Locale.getDefault());
         mProductsList.clear();
 
-        if(charText.length()==0){
+        if (charText.length() == 0) {
             mProductsList.addAll(mProducts);
-        }else{
-            for(Product wp:mProducts){
-                if(wp.getName().toLowerCase(Locale.getDefault()).contains(charText)) {
+        } else {
+            for (Product wp : mProducts) {
+                if (wp.getName().toLowerCase(Locale.getDefault()).contains(charText)) {
                     mProductsList.add(wp);
                 }
             }
@@ -129,6 +129,4 @@ public class ProductAdapter extends ArrayAdapter<Product> {
             return;
         }
     }
-
-
 }

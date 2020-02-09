@@ -56,6 +56,10 @@ public class ProductBuilder {
         return this;
     }
 
+    public String getId(){
+        return mId;
+    }
+
     public Product createProduct() {
         return new Product(mName, mPrice, mRating, mNumRating, mCategory, mId, mAvatarPath);
     }

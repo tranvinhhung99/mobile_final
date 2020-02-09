@@ -46,16 +46,17 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
     private static final int SUCCESS_INFORMATION_SHOW = 1001;
 
 
-    private class CartItem extends Product{
+    static public class CartItem extends Product{
         private long numProduct;
 
         CartItem(Product p, long n){
             super(p);
             numProduct = n;
         }
+        public CartItem(){}
     }
 
-    private ArrayList<CartItem> mCartItems;
+    static public ArrayList<CartItem> mCartItems = new ArrayList<>();;
     private CartAdapter mAdapter;
     private DatabaseReference mCartRef;
 
@@ -73,7 +74,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
 
-        mCartItems = new ArrayList<>();
+//        mCartItems =
 
         // Find buttons
         btnBack_cart = findViewById(R.id.btnBack_cart);
@@ -118,12 +119,6 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
 
                 if(data == null){
                     Log.d(TAG, "This user doesn't have anything in cart yet");
-//                    Toast.makeText(getBaseContext(), "There are no items", Toast.LENGTH_SHORT).show();
-
-//                    img_empty_cart.setVisibility(View.VISIBLE);
-//                    btnBuy_cart.setVisibility(View.VISIBLE);
-//                    btnPay_cart.setVisibility(View.INVISIBLE);
-//                    layout_price_cart.setVisibility(View.VISIBLE);
                     return;
                 }
 
@@ -191,7 +186,6 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 });
             }
-
 
         });
 
@@ -322,8 +316,6 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
     private void removeCart(){
         Log.d(TAG, "remove cart");
         mCartRef.removeValue().isSuccessful();
-
-
 
     }
 

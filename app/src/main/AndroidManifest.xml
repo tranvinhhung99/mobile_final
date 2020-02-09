@@ -14,7 +14,7 @@
         android:roundIcon="@mipmap/hautee"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".ScanQRActivity"></activity>
         <activity android:name=".ForgetPasswordActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".ProfileActivity" />
@@ -26,7 +26,8 @@
         <activity
             android:name=".LoginActivity"
             android:theme="@style/AppTheme.Dark" />
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />

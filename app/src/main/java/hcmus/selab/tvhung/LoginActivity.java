@@ -107,7 +107,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             final FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(getBaseContext(), "Login with Google Success", Toast.LENGTH_LONG).show();
+//                            Toast.makeText(getBaseContext(), "Login with Google Success", Toast.LENGTH_LONG).show();
 
                             if (!user.isEmailVerified())
                             {
